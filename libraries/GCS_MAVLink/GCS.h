@@ -82,6 +82,10 @@ enum ap_message : uint8_t {
     MSG_AOA_SSA,
     MSG_LANDING,
     MSG_NAMED_FLOAT,
+    MSG_TEMP_SENSOR,
+    MSG_HOOK_BUTTON,
+    MSG_TEMP_SENSOR_2,
+    MSG_IR_SENSOR,
     MSG_LAST // MSG_LAST must be the last entry in this enum
 };
 
@@ -188,6 +192,10 @@ public:
     void send_local_position() const;
     void send_vfr_hud();
     void send_vibration() const;
+    void send_temp_sensor() const;
+    void send_hook_button() const;
+    void send_temp_sensor_2() const;
+    void send_ir_sensor() const;
     void send_named_float(const char *name, float value) const;
     void send_home() const;
     void send_ekf_origin() const;

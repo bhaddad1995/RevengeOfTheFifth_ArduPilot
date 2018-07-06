@@ -27,21 +27,12 @@ public:
     // constructor
     AP_Button(void);
 
-    static AP_Button* Instance();
-
     static const struct AP_Param::GroupInfo var_info[];
 
     // update button state and send messages, called periodically by main loop
     void update(void);
     
-    void setHookVal(float value);
-
-    float getHookVal(void);
-
-    float hookVal;
-
 private:
-    static AP_Button* m_pInstance;
     AP_Int8 enable;
     AP_Int8 pin[AP_BUTTON_NUM_PINS];
 

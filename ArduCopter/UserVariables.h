@@ -2,16 +2,13 @@
 
 // example variables used in Wii camera testing - replace with your own
 // variables
+
+float hook_raw_value;
+bool hook_button_state;
+
+
 #ifdef USERHOOK_VARIABLES
 
-#if WII_CAMERA == 1
-WiiCamera           ircam;
-int                 WiiRange=0;
-int                 WiiRotation=0;
-int                 WiiDisplacementX=0;
-int                 WiiDisplacementY=0;
-#endif  // WII_CAMERA
 
 #endif  // USERHOOK_VARIABLES
-
 

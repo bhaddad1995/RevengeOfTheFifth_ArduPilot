@@ -1,8 +1,15 @@
 #include "Copter.h"
+#include "UserVariables.h"
+
+AP_HAL::AnalogSource *analog_source;
+AP_Button *ap_but = AP_Button::Instance();
 
 #ifdef USERHOOK_INIT
 void Copter::userhook_init()
 {
+    uint8_t hook_button_pin = 15;
+    analog_source = hal.analogin->channel(hook_button_pin);
+
     // put your initialisation code here
     // this will be called once at start-up
 }
@@ -26,6 +33,13 @@ void Copter::userhook_50Hz()
 void Copter::userhook_MediumLoop()
 {
     // put your 10Hz code here
+    this->hook_raw_value = analog_source->voltage_latest();
+/*    if(hook_raw_value >= 3)
+        this->hook_button_state = false;
+    else
+        this->hook_button_state = true;*/
+
+    ap_but->setHookVal(this->hook_raw_value);
 }
 #endif
 

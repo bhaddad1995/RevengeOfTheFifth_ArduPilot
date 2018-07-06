@@ -21,6 +21,7 @@
 #include <AP_RangeFinder/RangeFinder_Backend.h>
 #include <AP_Airspeed/AP_Airspeed.h>
 #include <AP_Gripper/AP_Gripper.h>
+#include <AP_Button/AP_Button.h>
 
 #include "GCS.h"
 
@@ -1574,6 +1575,55 @@ void GCS_MAVLINK::send_vibration() const
         ins.get_accel_clip_count(2));
 }
 
+
+//  send TEMP_SENSOR message
+
+void GCS_MAVLINK::send_temp_sensor() const
+{
+    float tempValue = 8; //call temp sensor code to get temp reading
+
+    mavlink_msg_temp_sensor_send(
+        chan,
+        AP_HAL::micros64(),
+        tempValue); //get temp value
+}
+
+
+//  send HOOK_BUTTON message
+
+void GCS_MAVLINK::send_hook_button() const
+{
+    AP_Button *ap_but = new AP_Button;
+    uint8_t hookValue = (uint8_t) ap_but->getHookVal();
+    mavlink_msg_hook_button_send(
+        chan,
+        AP_HAL::micros64(),
+        hookValue); //get hook button value
+}
+
+void GCS_MAVLINK::send_temp_sensor_2() const
+{
+    float tempValue = 8;
+
+    mavlink_msg_temp_sensor_2_send(
+        chan,
+        AP_HAL::micros64(),
+        tempValue); //get temp value
+}
+
+
+//  send HOOK_BUTTON message
+
+void GCS_MAVLINK::send_ir_sensor() const
+{
+    uint8_t hookValue = 0;
+
+    mavlink_msg_ir_sensor_send(
+        chan,
+        AP_HAL::micros64(),
+        hookValue); //get hook button value
+}
+
 void GCS_MAVLINK::send_named_float(const char *name, float value) const
 {
     char float_name[MAVLINK_MSG_NAMED_VALUE_FLOAT_FIELD_NAME_LEN+1] {};
@@ -2966,6 +3016,26 @@ bool GCS_MAVLINK::try_send_message(const enum ap_message id)
     case MSG_VIBRATION:
         CHECK_PAYLOAD_SIZE(VIBRATION);
         send_vibration();
+        break;
+
+    case MSG_TEMP_SENSOR:
+        //CHECK_PAYLOAD_SIZE(TEMP_SENSOR);
+        send_temp_sensor();
+        break;
+
+    case MSG_HOOK_BUTTON:
+        //CHECK_PAYLOAD_SIZE(HOOK_BUTTON);
+        send_hook_button();
+        break;
+
+    case MSG_TEMP_SENSOR_2:
+        //CHECK_PAYLOAD_SIZE(TEMP_SENSOR);
+        send_temp_sensor_2();
+        break;
+
+    case MSG_IR_SENSOR:
+        //CHECK_PAYLOAD_SIZE(HOOK_BUTTON);
+        send_ir_sensor();
         break;
 
     default:

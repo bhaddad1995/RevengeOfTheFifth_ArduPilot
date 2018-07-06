@@ -20,8 +20,6 @@
 
 extern const AP_HAL::HAL& hal;
 
-AP_Button* AP_Button::m_pInstance = NULL;
-
 const AP_Param::GroupInfo AP_Button::var_info[] = {
 
     // @Param: ENABLE
@@ -122,23 +120,6 @@ uint8_t AP_Button::get_mask(void)
         mask |= hal.gpio->read(pin[i]) << i;
     }
     return mask;
-}
-
-AP_Button* AP_Button::Instance(){
-    if (!m_pInstance){   // Only allow one instance of class to be generated.
-        m_pInstance = new AP_Button;
-    }
-    return m_pInstance;
-
-}
-
-void AP_Button::setHookVal(float value){
-    this->hookVal = value;
-    return;
-}
-
-float AP_Button::getHookVal(void){
-    return this->hookVal;
 }
 
 /*
