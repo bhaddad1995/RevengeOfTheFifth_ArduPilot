@@ -1593,7 +1593,7 @@ void GCS_MAVLINK::send_temp_sensor() const
 
 void GCS_MAVLINK::send_hook_button() const
 {
-    AP_Button *ap_but = new AP_Button;
+    AP_Button *ap_but = AP_Button::Instance();
     uint8_t hookValue = (uint8_t) ap_but->getHookVal();
     mavlink_msg_hook_button_send(
         chan,
