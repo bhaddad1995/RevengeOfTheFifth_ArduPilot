@@ -38,7 +38,13 @@ public:
 
     float getHookVal(void);
 
+    void setAmbTempVal(uint16_t value);
+
+    uint16_t getAmbTempVal(void);
+
     float hookVal;
+
+    uint16_t ambTempVal;
 
 private:
     static AP_Button* m_pInstance;

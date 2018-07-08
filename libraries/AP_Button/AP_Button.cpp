@@ -141,6 +141,15 @@ float AP_Button::getHookVal(void){
     return this->hookVal;
 }
 
+void AP_Button::setAmbTempVal(uint16_t value){
+    this->ambTempVal = value;
+    return;
+}
+
+uint16_t AP_Button::getAmbTempVal(){
+    return this->ambTempVal;
+}
+
 /*
   called at 1kHz to check for button state change
  */

@@ -31,3 +31,4 @@ LIBRARIES += AP_RangeFinder
 LIBRARIES += VehicleType
 LIBRARIES += AP_Frsky_Telem
 LIBRARIES += AP_Beacon
+LIBRARIES += AP_Temp_I2C

@@ -7,13 +7,13 @@
 #include <stdio.h>
 #include <utility>
 #include <AP_HAL/utility/OwnPtr.h>
+#include <AP_Temp_I2C/AP_Temp_I2C.h>
 
 AP_HAL::AnalogSource *analog_source;
 AP_Button *ap_but = AP_Button::Instance();
 extern const AP_HAL::HAL &hal;
-AP_HAL::Semaphore *sem;
-AP_HAL::OwnPtr<AP_HAL::I2CDevice> _dev;
-uint16_t _temperature;
+AP_Temp_I2C *battTempSensor = new AP_Temp_I2C();
+AP_Temp_I2C *ambTempSensor = new AP_Temp_I2C();
 
 #define BATT_TEMP_SENSE (0x18)
 #define AMB_TEMP_SENSE  (0x19)
@@ -23,6 +23,9 @@ void Copter::userhook_init()
 {
     uint8_t hook_button_pin = 15;
     analog_source = hal.analogin->channel(hook_button_pin);
+
+    battTempSensor->init(BATT_TEMP_SENSE);
+    ambTempSensor->init(AMB_TEMP_SENSE);
 
     // put your initialisation code here
     // this will be called once at start-up
@@ -58,7 +61,10 @@ void Copter::userhook_MediumLoop()
     }else{
         hook_button_state = 1;
     }
+    uint16_t testVal = 8;
     ap_but->setHookVal(hook_button_state);
+    //ap_but->setAmbTempVal(ambTempSensor->getTemp());
+    ap_but->setAmbTempVal(testVal);
 }
 #endif
 
