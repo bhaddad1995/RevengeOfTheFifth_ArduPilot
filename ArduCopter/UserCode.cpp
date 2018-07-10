@@ -61,10 +61,9 @@ void Copter::userhook_MediumLoop()
     }else{
         hook_button_state = 1;
     }
-    uint16_t testVal = 8;
     ap_but->setHookVal(hook_button_state);
-    //ap_but->setAmbTempVal(ambTempSensor->getTemp());
-    ap_but->setAmbTempVal(testVal);
+    ap_but->setAmbTempVal(ambTempSensor->getTemp());
+    ap_but->setBatTempVal(battTempSensor->getTemp());
 }
 #endif
 

@@ -37,7 +37,7 @@ bool AP_Temp_I2C::init(uint16_t sensor_loc)
                                      FUNCTOR_BIND_MEMBER(&AP_Temp_I2C::_timer, void));
 								
 	// not sure if we need this to be false or not
-	 _dev->set_split_transfers(false);
+	 _dev->set_split_transfers(true);
 	
 	return true;
 }
@@ -55,20 +55,34 @@ void AP_Temp_I2C::_timer(void)
 
 void AP_Temp_I2C::acquireTemp(void)
 {
-	uint16_t data;
-	uint8_t tempAddress = 0x05;
-	
-	
-	// transfer 0x05, which is the register that holds ambient temp
-	if(_dev->transfer(&tempAddress, 1, (uint8_t*)&data, sizeof(data)))
-		_temperature = data;
-	
-	
-	// my first attempt at scaling temp correctly... I'll fix this once we get some actual
-	//		data off the sensor
-	
-	//if(data & 0x1000) _temperature = -1*(data&0x0FFF);
-	//else _temperature = data&0xFFF;
-	
-	return;
+    uint8_t data[2];
+
+    uint8_t conversion_data[2];
+
+    uint8_t tempAddress = 0x05;
+
+    // transfer 0x05, which is the register that holds ambient temp
+
+    if(_dev->transfer(&tempAddress, 1, data, sizeof(data))){
+        conversion_data[0] = data[0] & 0x1F; // Clear alert bits
+        conversion_data[1] = data[1];
+
+    // If negative***, use this conversion
+
+    if(conversion_data[0] & 0x10){
+
+        conversion_data[0] = conversion_data[0] & 0x0F; // Clear SIGN bit
+
+        //_temperature is a float!!!!
+        _temperature = 256 - ( 16 * ((float) conversion_data[0]) + ((float) conversion_data[1]) / 16.0 );
+
+        // If positive, use this one
+        }else{
+            //_temperature is a float!!!!
+            _temperature = ( 16 * ((float) conversion_data[0]) + ((float) conversion_data[1]) / 16.0 );
+        }
+    }
+
+
+    return;
 }

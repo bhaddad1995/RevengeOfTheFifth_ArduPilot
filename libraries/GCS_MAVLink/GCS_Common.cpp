@@ -1581,7 +1581,7 @@ void GCS_MAVLINK::send_vibration() const
 void GCS_MAVLINK::send_temp_sensor() const
 {
     AP_Button *ap_but = AP_Button::Instance();
-    float tempValue = (float) ap_but->getAmbTempVal(); //call temp sensor code to get temp reading
+    float tempValue = ap_but->getAmbTempVal(); //call temp sensor code to get temp reading
 
     mavlink_msg_temp_sensor_send(
         chan,
@@ -1604,7 +1604,8 @@ void GCS_MAVLINK::send_hook_button() const
 
 void GCS_MAVLINK::send_temp_sensor_2() const
 {
-    float tempValue = 8;
+    AP_Button *ap_but = AP_Button::Instance();
+    float tempValue = ap_but->getBatTempVal();
 
     mavlink_msg_temp_sensor_2_send(
         chan,

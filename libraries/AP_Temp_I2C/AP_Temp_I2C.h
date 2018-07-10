@@ -29,7 +29,7 @@ protected:
 private:
 	void _timer(void);
 	void acquireTemp(void);
-	uint16_t _temperature;
+	float _temperature;
 	//uint16_t _ambient_temperature;
 	AP_HAL::OwnPtr<AP_HAL::I2CDevice> _dev;
 	

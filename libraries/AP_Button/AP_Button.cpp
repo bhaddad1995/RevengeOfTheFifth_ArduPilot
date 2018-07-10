@@ -141,13 +141,22 @@ float AP_Button::getHookVal(void){
     return this->hookVal;
 }
 
-void AP_Button::setAmbTempVal(uint16_t value){
+void AP_Button::setAmbTempVal(float value){
     this->ambTempVal = value;
     return;
 }
 
-uint16_t AP_Button::getAmbTempVal(){
+float AP_Button::getAmbTempVal(){
     return this->ambTempVal;
+}
+
+void AP_Button::setBatTempVal(float value){
+    this->batTempVal = value;
+    return;
+}
+
+float AP_Button::getBatTempVal(){
+    return this->batTempVal;
 }
 
 /*
